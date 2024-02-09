@@ -22,11 +22,13 @@ const Banner = () => {
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
@@ -34,15 +36,18 @@ const Banner = () => {
                         name="rating-2"
                         className="mask mask-star-2 bg-yellow-400"
                         checked
+                        readOnly
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                     </div>
@@ -62,11 +67,13 @@ const Banner = () => {
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
@@ -74,15 +81,18 @@ const Banner = () => {
                         name="rating-2"
                         className="mask mask-star-2 bg-yellow-400"
                         checked
+                        readOnly
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                       <input
                         type="radio"
                         name="rating-2"
+                        readOnly
                         className="mask mask-star-2 bg-yellow-400"
                       />
                     </div>
@@ -90,8 +100,8 @@ const Banner = () => {
                   </div>
                 </div>
               </div>
-                    </div>
-                    
+            </div>
+
             {/* text */}
             <div className="md:w-1/2 space-y-7 px-4">
               <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug">

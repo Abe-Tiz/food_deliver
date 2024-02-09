@@ -12,7 +12,7 @@
         "name": "Haddock",
         "recipe": "Chargrilled fresh tuna steak (served medium rare) on classic Niçoise salad with French beans.",
         "image": "/images/recipes/img2.png",
-        "category": "drinks",
+        "category": "popular",
         "price": 14.7
     },
     {
@@ -68,7 +68,7 @@
         "name": "Escalope de Veau",
         "recipe": "Pan roasted haddock fillet wrapped in smoked French bacon with pea purée and tomato and chive vinaigrette",
         "image": "/images/recipes/img3.png",
-        "category": "dessert",
+        "category": "popular",
         "price": 12.5
     },
     {
@@ -116,7 +116,7 @@
         "name": "Escalope de Veau",
         "recipe": "Pan roasted haddock fillet wrapped in smoked French bacon with pea purée and tomato and chive vinaigrette",
         "image": "/images/recipes/img3.png",
-        "category": "dessert",
+        "category": "popular",
         "price": 12.5
     },
     {
