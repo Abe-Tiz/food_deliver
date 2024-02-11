@@ -1,21 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Modal from './Modal';
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const Signup = () => {
      const {
        register,
        handleSubmit,
        formState: { errors },
-     } = useForm();
+  } = useForm();
+  
+  const { createUser, login } = useContext(AuthContext);
+  
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    createUser(email, password).then(result => {
+      const user = result.user;
+      alert("account created successfully");
+    }).catch( err => {
+      console.log(err.message)
+    })
+  }
 
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
       <div className="modal-action flex flex-col justify-center mt-0">
         <form
-        //   onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="card-body"
           method="dialog"
         >
