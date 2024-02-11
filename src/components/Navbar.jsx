@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from '/logo.png'
 import { FaUserLarge } from "react-icons/fa6";
 import Modal from './Modal';
+import { AuthContext } from './../contexts/AuthProvider';
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false)
   
+  const { user } = useContext(AuthContext);
+  console.log("user context: ",user);
+
   // handle scroll functrions
   useEffect(() => {
     const handleScroll = () => {
