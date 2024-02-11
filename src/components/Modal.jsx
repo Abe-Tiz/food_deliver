@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 import { CiLinkedin } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Modal = () => {
+const [errorMeaage,setErrorMessage] = useState("")
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
- 
+  const { signupWithEmail,login } = useContext(AuthContext);
+
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    // console.log(email,password)
+    login(email, password).then(result => {
+      const user = result.user;
+      alert("loggedin successful")
+    }).catch(err => {
+      const errMessge = err.message;
+      setErrorMessage("please use correct email and password");
+
+    })
+  };
+
+  const handleLogin = () => {
+    signupWithEmail().then((result) => {
+      const user = result.user;
+    alert("Loggedin Successfully")
+    }).catch(err => {
+      console.log("error:", err.message);
+    })
+  }
 
   return (
     <>
@@ -58,7 +83,7 @@ const Modal = () => {
               </div>
 
               {/* error text */}
-              {errors.password && <span>email and password is required</span>}
+              {errorMeaage && <p className="text-red text-xs">{errorMeaage}</p>}
 
               {/* login btn */}
               <div className="form-control mt-6">
@@ -88,7 +113,10 @@ const Modal = () => {
 
             {/* social sign in */}
             <div className="text-center space-x-3 mb-5">
-              <button className="btn btn-circle hover:bg-green  hover:transition ease-in-out hover:text-white">
+              <button
+                onClick={handleLogin}
+                className="btn btn-circle hover:bg-green  hover:transition ease-in-out hover:text-white"
+              >
                 <FaGoogle size={24} />
               </button>
               <button className="btn btn-circle hover:bg-green hover:transition ease-in-out hover:text-white">
