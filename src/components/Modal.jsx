@@ -1,21 +1,28 @@
 import React, { useContext, useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 import { CiLinkedin } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
 
 const Modal = () => {
-const [errorMeaage,setErrorMessage] = useState("")
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
-  const { signupWithEmail,login } = useContext(AuthContext);
+  
+  const [errorMeaage,setErrorMessage] = useState("")
+  const { signupWithEmail, login } = useContext(AuthContext);
 
+  // navigete to home or specifing page 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
+// login
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
@@ -23,6 +30,8 @@ const [errorMeaage,setErrorMessage] = useState("")
     login(email, password).then(result => {
       const user = result.user;
       alert("loggedin successful")
+      document.getElementById("my_modal_5").close();
+      navigate(from, { replace: true });
     }).catch(err => {
       const errMessge = err.message;
       setErrorMessage("please use correct email and password");
@@ -33,7 +42,9 @@ const [errorMeaage,setErrorMessage] = useState("")
   const handleLogin = () => {
     signupWithEmail().then((result) => {
       const user = result.user;
-    alert("Loggedin Successfully")
+      alert("Loggedin Successfully")
+      document.getElementById("my_modal_5").close();
+      navigate(from, { replace: true });
     }).catch(err => {
       console.log("error:", err.message);
     })

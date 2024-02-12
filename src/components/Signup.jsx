@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import Modal from './Modal';
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
-
+ 
 const Signup = () => {
      const {
        register,
@@ -13,13 +13,18 @@ const Signup = () => {
   } = useForm();
   
   const { createUser, login } = useContext(AuthContext);
-  
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
     createUser(email, password).then(result => {
       const user = result.user;
       alert("account created successfully");
+        document.getElementById("my_modal_5").close();
+        navigate(from, { replace: true });
     }).catch( err => {
       console.log(err.message)
     })
