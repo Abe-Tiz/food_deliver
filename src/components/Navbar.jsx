@@ -3,6 +3,7 @@ import logo from '/logo.png'
 import { FaUserLarge } from "react-icons/fa6";
 import Modal from './Modal';
 import { AuthContext } from './../contexts/AuthProvider';
+import Profile from './Profile';
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false)
@@ -180,12 +181,18 @@ const Navbar = () => {
             </div>
 
             {/* btn */}
-            <button
-              onClick={() => document.getElementById("my_modal_5").showModal()}
-              className="btn bg-green text-white px-6 flex items-center gap-2 rounded-full"
-            >
-              <FaUserLarge /> Login
-            </button>
+            {user ? (
+              <Profile user={ user } />
+            ) : (
+              <button
+                onClick={() =>
+                  document.getElementById("my_modal_5").showModal()
+                }
+                className="btn bg-green text-white px-6 flex items-center gap-2 rounded-full"
+              >
+                <FaUserLarge /> Login
+              </button>
+            )}
             <Modal />
           </div>
         </div>
