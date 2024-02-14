@@ -9,17 +9,20 @@ const Main = () => {
   const { loading } = useContext(AuthContext);
 
   return (
-      <div>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <div>
-            <Navbar />
+    <div>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div>
+          <Navbar />
+          <div className="min-h-screen">
             <Outlet />
-            <Footer />
           </div>
-        )}
-      </div>
+
+          <Footer />
+        </div>
+      )}
+    </div>
   );
 };
 

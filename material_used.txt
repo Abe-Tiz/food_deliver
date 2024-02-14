@@ -1,0 +1,11 @@
+
+# materials  used for this project
+- tailwind css for styling
+- react router dom  // use this cmd  npm install react-router-dom localforage match-sorter sort-by
+- vite
+- daisyUI for Navbar  tailwind liberary # npm i -D daisyui@latest
+- react icons icons in this project
+- react slick for selection of dishes  
+- react hook form for validating form data 
+- express mongodb cors dotenv
+- sweetalert2 for alert 
