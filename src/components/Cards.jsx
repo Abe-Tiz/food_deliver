@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from "sweetalert2";
 
@@ -9,7 +9,8 @@ const Cards = ({ item }) => {
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const { name, image, price, recipe, quantity, _id } = item;
   const { user } = useContext(AuthContext);
-
+  const navigate = useNavigate();
+  const location = useLocation()
 
   const handleHeartClick = () => {
     setIsHeartFilled(!isHeartFilled);
@@ -41,8 +42,22 @@ const Cards = ({ item }) => {
           }
         
         });
-
-   }
+    } else {
+      Swal.fire({
+        title: "please Login",
+        text: "with out an account can't be add products.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Signup Now",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/signup", { state: { from: location } });
+        }
+      });
+    }
+     
   } 
 
   return (
