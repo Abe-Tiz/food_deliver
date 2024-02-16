@@ -5,12 +5,15 @@ import Modal from './Modal';
 import { AuthContext } from './../contexts/AuthProvider';
 import Profile from './Profile';
 import { Link } from 'react-router-dom';
+import useCart from './../hooks/useCart';
 
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false)
   
   const { user } = useContext(AuthContext);
-  console.log("user context: ",user);
+  console.log(user);
+  const [cart, refetch ] = useCart();
+  console.log(cart);
 
   // handle scroll functrions
   useEffect(() => {
@@ -74,7 +77,8 @@ const Navbar = () => {
         </li>
         <li></li>
       </>
-    );
+  );
+  
     return (
       <header className="max-w-screen-2xl container mx-auto fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out">
         <div
@@ -146,7 +150,7 @@ const Navbar = () => {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost btn-circle hidden lg:flex mr-3 items-center justify-center"
+                  className="btn btn-ghost btn-circle lg:flex mr-3 items-center justify-center"
                 >
                   <div className="indicator">
                     <svg
@@ -163,23 +167,9 @@ const Navbar = () => {
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                       />
                     </svg>
-                    <span className="badge badge-sm indicator-item">0</span>
+                    <span className="badge badge-sm indicator-item">{ cart.length || 0}</span>
                   </div>
                 </div>
-                {/* <div
-                  tabIndex={0}
-                  className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
-                >
-                  <div className="card-body">
-                    <span className="font-bold text-lg">8 Items</span>
-                    <span className="text-info">Subtotal: $999</span>
-                    <div className="card-actions">
-                      <button className="btn btn-primary btn-block">
-                        View cart
-                      </button>
-                    </div>
-                  </div>
-                </div> */}
               </Link>
             </div>
 

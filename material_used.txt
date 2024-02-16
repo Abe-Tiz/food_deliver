@@ -9,3 +9,4 @@
 - react hook form for validating form data 
 - express mongodb cors dotenv
 - sweetalert2 for alert 
+- useQuery for fetching data in to cart using tanstack query
