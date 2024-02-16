@@ -7,42 +7,80 @@ import { AuthContext } from "../../contexts/AuthProvider";
 const CartPage = () => {
   const [cart, refetch] = useCart();
   const { user } = useContext(AuthContext);
-  const [cartItems, setCartItems] = useState([])
+  const [cartItems, setCartItems] = useState([]);
+
+  // calculate price
+  const calculatePrice = (item) => {
+    return item.price * item.quantity;
+  };
   
+  // calculate total price
+  const totalPrice = cart.reduce((total, item) => {
+    return total + calculatePrice(item);
+  }, 0);
+
+  const orderTotal = totalPrice;
+
   // decrease quantity
   const handleDecreseQuantity = (item) => {
-    console.log(item._id);
-    const totalQuantity = item.quantity - 1;
-
-  }
+    if (item.quantity <= 1) {
+      return;
+    }
+    fetch(`http://localhost:4000/carts/${item._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8", // Changed "content-type" to "Content-Type"
+      },
+      body: JSON.stringify({ quantity: item.quantity - 1 }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const updateCart = cartItems.map((cartItem) => {
+          if (cartItem.id === item.id) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity - 1,
+            };
+          }
+          return cartItem;
+        });
+        refetch();
+        setCartItems(updateCart);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   // increase quantity
-  const handleIncreseQuantity = (item) => {
+  const handleIncreaseQuantity = (item) => {
     // console.log(item._id);
     fetch(`http://localhost:4000/carts/${item._id}`, {
       method: "PUT",
       headers: {
-        "content-type": "application/json;charset=utf-8"
+        "Content-Type": "application/json; charset=utf-8", // Changed "content-type" to "Content-Type"
       },
-      body: JSON.stringify({quantity:item.quantity + 1})
+      body: JSON.stringify({ quantity: item.quantity + 1 }),
     })
       .then((res) => res.json())
       .then((data) => {
-        const updateCArt = cartItems.map((cartItem) => {
+        const updateCart = cartItems.map((cartItem) => {
           if (cartItem.id === item.id) {
             return {
               ...cartItem,
-              quantity: cartItem.quantity + 1
-            }
+              quantity: cartItem.quantity + 1,
+            };
           }
-
           return cartItem;
-        })
+        });
         refetch();
-        setCartItems(updateCArt);
+        setCartItems(updateCart);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-
   };
 
+  // handle delete
   const handleDelete = (item) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,22 +93,23 @@ const CartPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`http://localhost:4000/carts/${item._id}`, {
-          method:'DELETE'
-        }).
-          then((res) => res.json())
+          method: "DELETE",
+        })
+          .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
               refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            });
-          }
-        });
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          });
       }
     });
-  }
+  };
+
   return (
     <div className="section-container">
       <div className="section-container bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] t0-100%">
@@ -127,12 +166,12 @@ const CartPage = () => {
                           />
                           <button
                             className="btn btn-xs"
-                            onClick={() => handleIncreseQuantity(item)}
+                            onClick={() => handleIncreaseQuantity(item)}
                           >
                             +
                           </button>
                         </td>
-                        <td>{item.price}</td>
+                        <td>${calculatePrice(item).toFixed(2)}</td>
                         <th>
                           <button
                             onClick={() => handleDelete(item)}
@@ -163,7 +202,7 @@ const CartPage = () => {
         <div className="md:w-1/2 space-y-3">
           <h3 className="font-bold">Shoping Details</h3>
           <p>Total Items: {cart.length}</p>
-          <p>Total Price: $0.00</p>
+          <p>Total Price: ${orderTotal.toFixed(2)}</p>
           <button className="btn bg-green text-white">Proceed Checkout</button>
         </div>
       </div>

@@ -70,7 +70,7 @@ app.use(express.json());
             // update quantity
             app.put('/carts/:id', async (req, res) => {
                 const id = req.params.id;
-                const { quantity } = req.query;
+                const quantity  = req.body.quantity;
                 const filter = { _id: new ObjectId(id) };
                 const options = { upsert: true };
 
@@ -85,7 +85,8 @@ app.use(express.json());
                     updateDoc,
                     options
                 );
-
+                res.send(result);
+                console.log(result)
             })
 
           await client.db("admin").command({ ping: 1 });
