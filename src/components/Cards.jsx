@@ -3,6 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthProvider";
 import Swal from "sweetalert2";
+import useCart from "../hooks/useCart";
 
 const Cards = ({ item }) => {
   // console.log(item)
@@ -11,7 +12,7 @@ const Cards = ({ item }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation()
-
+  const [cart, refetch] = useCart();
   const handleHeartClick = () => {
     setIsHeartFilled(!isHeartFilled);
   };
@@ -20,7 +21,7 @@ const Cards = ({ item }) => {
     if (user && user?.email) {
       const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email };
       // console.log(cartItem);
-      fetch("http://localhost:4000/carts", {
+      fetch("http://localhost:4000/carts/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,16 +32,25 @@ const Cards = ({ item }) => {
         .then((data) => {
           // console.log(data);
 
-          if (data.insertedId) {
+          if (data.message === "Ok") {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            refetch();
+          } else {
               Swal.fire({
                 position: "top-end",
-                icon: "success",
-                title: "Your work has been saved",
+                icon: "warning",
+                title: "Product already exists",
                 showConfirmButton: false,
                 timer: 1500,
               });
           }
-        
+
         });
     } else {
       Swal.fire({
