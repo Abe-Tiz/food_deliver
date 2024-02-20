@@ -11,6 +11,7 @@ const port = process.env.PORT || 4000;
 
 const MenuRoute = require("./api/routes/MenuRoute");
 const CartRoute = require("./api/routes/CartRoute");
+const UserRoute = require("./api/routes/UserRoute");
 
 app.use(cors());
 app.use(express.json());
@@ -120,6 +121,7 @@ app.get("/", (req, res) => {
 
 app.use("/menu", MenuRoute);
 app.use("/carts", CartRoute);
+app.use("/user",UserRoute)
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);
