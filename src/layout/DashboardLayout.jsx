@@ -17,6 +17,9 @@ import logo from "/logo.png";
 import { AuthContext } from "../contexts/AuthProvider";
 import { IoHome } from "react-icons/io5";
 import { IoIosSend } from "react-icons/io";
+import Login from './../components/Login';
+import useAdmin from './../hooks/useAdmin';
+import useAuth from './../hooks/useAuth';
 
 const DashboardLayout = () => {
   const { logout } = useContext(AuthContext);
@@ -60,9 +63,13 @@ const DashboardLayout = () => {
     </>
   );
 
+  const { loading } = useAuth();
+  const [isAdmin, isAdminLoading] = useAdmin();
+
   return (
     <div>
-      <div className="drawer lg:drawer-open">
+      {
+        isAdmin ? (  <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col sm:items-start sm:justify-start">
           {/* Page content here */}
@@ -128,7 +135,11 @@ const DashboardLayout = () => {
             {sharedLinks}
           </ul>
         </div>
-      </div>
+        </div>
+        ) : (
+            <Login />
+        )
+    }
     </div>
   );
 };

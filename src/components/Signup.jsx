@@ -4,6 +4,8 @@ import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa6';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../contexts/AuthProvider';
+import axios  from 'axios';
+import useAxiosPublic from './../hooks/useAxiosPublic';
  
 const Signup = () => {
      const {
@@ -12,23 +14,56 @@ const Signup = () => {
        formState: { errors },
   } = useForm();
   
-  const { createUser, login } = useContext(AuthContext);
+  const { createUser, signUpWithGmail, updateUserProfile } =useContext(AuthContext);
     const location = useLocation();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
     const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
     const email = data.email;
     const password = data.password;
+  
     createUser(email, password).then(result => {
       const user = result.user;
-      alert("account created successfully");
-        document.getElementById("my_modal_5").close();
-        navigate(from, { replace: true });
+      updateUserProfile(data.email, data.photoURL).then(() => {
+          const userInfor = {
+            name: data.name,
+            email: data.email,
+        };
+        axiosPublic
+          .post("/user/create", userInfor)
+          .then((res) => {
+            alert("signin successfully");
+            navigate(from, { replace: true });
+          });
+      })
     }).catch( err => {
       console.log(err.message)
+      const errCode = err.code;
+      const errMessage = err.message;
     })
   }
+
+  // handle registered with google
+    const handleRegister = () => {
+      signUpWithGmail()
+        .then((result) => {
+          const user = result.user;
+          const userInfor = {
+            name: result?.user?.displayName,
+            email: result?.user?.email,
+          };
+          axiosPublic
+            .post("/user/create", userInfor)
+            .then((response) => {
+              alert("Signin successful!");
+              // console.log(response);
+              navigate("/");
+            });
+        })
+        .catch((error) => console.log(error));
+    };
 
   return (
     <div className="max-w-md bg-white shadow w-full mx-auto flex items-center justify-center my-20">
@@ -40,6 +75,18 @@ const Signup = () => {
         >
           <h3 className="font-bold text-lg">Create A Account!</h3>
 
+          {/* name */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              type="name"
+              placeholder=" Your Name"
+              className="input input-bordered"
+              {...register("name")}
+            />
+          </div>
           {/* email */}
           <div className="form-control">
             <label className="label">
@@ -102,7 +149,10 @@ const Signup = () => {
 
         {/* social sign in */}
         <div className="text-center space-x-3 mb-5">
-          <button className="btn btn-circle hover:bg-green hover:text-white">
+          <button
+            onClick={handleRegister}
+            className="btn btn-circle hover:bg-green hover:text-white"
+          >
             <FaGoogle />
           </button>
           <button className="btn btn-circle hover:bg-green hover:text-white">
