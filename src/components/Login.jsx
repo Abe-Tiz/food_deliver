@@ -6,16 +6,18 @@ import { AuthContext } from "../contexts/AuthProvider";
 import axios from "axios";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import useAuth from "../hooks/useAuth";
+import useAxiosSecure from './../hooks/useAxiosSecure';
 
 const Login = () => {
   const [errorMessage, seterrorMessage] = useState("");
   const { signUpWithGmail, login } = useAuth();
   const axiosPublic = useAxiosPublic();
+  const  axiosPublicSecure = useAxiosSecure()
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard";
 
   //react hook form
   const {
@@ -32,23 +34,21 @@ const Login = () => {
       .then((result) => {
         // Signed in
         const user = result.user;
-        const userInfor = {
+        const userInfo = {
           name: data.name,
           email: data.email,
         };
-        axiosPublic.post("/user/create", userInfor).then((response) => {
+        axiosPublic.post("/user/create", userInfo).then((response) => {
           // console.log(response);
           alert("Signin successful!");
           navigate(from, { replace: true });
         });
-        // console.log(user);
-        // ...
       })
       .catch((error) => {
         const errorMessage = error.message;
         seterrorMessage("Please provide valid email & password!");
       });
-    reset();
+    // reset();
   };
 
   // login with google
@@ -64,7 +64,7 @@ const Login = () => {
         axiosPublic.post("/user/create", userInfor).then((response) => {
           // console.log(response);
           alert("Signin successful!");
-          navigate("/");
+          navigate("/dashboard");
         });
       })
       .catch((error) => console.log(error));

@@ -31,7 +31,7 @@ const Modal = () => {
       const user = result.user;
       alert("loggedin successful")
       document.getElementById("my_modal_5").close();
-      navigate(from, { replace: true });
+      navigate(from,{replace:true});
     }).catch(err => {
       const errMessge = err.message;
       setErrorMessage("please use correct email and password");
@@ -44,7 +44,7 @@ const Modal = () => {
       const user = result.user;
       alert("Loggedin Successfully")
       document.getElementById("my_modal_5").close();
-      navigate(from, { replace: true });
+      navigate('/dashboard');
     }).catch(err => {
       console.log("error:", err.message);
     })

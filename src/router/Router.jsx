@@ -11,6 +11,10 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Order from "../pages/dashboard/Order";
 import Dashbord from "../pages/dashboard/admin/Dashbord";
 import Users from "../pages/dashboard/admin/Users";
+import Login from "../components/Login";
+import AddMenu from './../pages/dashboard/admin/AddMenu';
+import ManageItems from './../pages/dashboard/admin/ManageItems';
+import UpdateMenu from './../pages/dashboard/admin/UpdateMenu';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,10 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "dashboard",
     element: <DashboardLayout />,
     children: [
@@ -50,6 +58,20 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <Users />,
+      },
+      {
+        path: "add-menu",
+        element: <AddMenu />,
+      },
+      {
+        path: "manage-items",
+        element: <ManageItems />,
+      },
+      {
+        path: "update-items/:id",
+        element: <UpdateMenu />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:4000/menu/update/${params.id}`),
       },
     ],
   },

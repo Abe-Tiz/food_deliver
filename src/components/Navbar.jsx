@@ -176,7 +176,7 @@ const Navbar = () => {
             </div>
 
             {/* btn */}
-            {user ? (
+            { user ? (
               <Profile user={user} />
             ) : (
               <button
