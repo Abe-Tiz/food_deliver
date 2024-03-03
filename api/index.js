@@ -3,8 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-// const { ObjectId } = require("mongodb");
 
+const stripe = require("stripe")(process.env.STRIP_SK);
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.qpiuuji.mongodb.net/foodDeliverDB`;
 const app = express();
 const port = process.env.PORT || 4000;
@@ -45,6 +45,22 @@ app.get("/", verifyToken,(req, res) => {
 app.use("/menu", MenuRoute);
 app.use("/carts", CartRoute);
 app.use("/user",UserRoute)
+
+
+app.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "usd",
+    payment_method_types: ["card"],
+  });
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
+});
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);

@@ -8,13 +8,15 @@ import PrivateRouter from "../privateRouter/PrivateRouter";
 import UpdateProfile from "../pages/dashboard/UpdateProfile";
 import CartPage from "../pages/shop/CartPage";
 import DashboardLayout from "../layout/DashboardLayout";
-import Order from "../pages/dashboard/Order";
+// import Order from "../pages/dashboard/Order";
 import Dashbord from "../pages/dashboard/admin/Dashbord";
 import Users from "../pages/dashboard/admin/Users";
 import Login from "../components/Login";
 import AddMenu from './../pages/dashboard/admin/AddMenu';
 import ManageItems from './../pages/dashboard/admin/ManageItems';
 import UpdateMenu from './../pages/dashboard/admin/UpdateMenu';
+import Order from './../pages/dashboard/Order';
+import Payment from './../pages/shop/Payment';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,18 @@ const router = createBrowserRouter([
         path: "/cart-page",
         element: <CartPage />,
       },
+      {
+        path: "/order",
+        element: <Order />,
+      },
+      {
+        path: "/cart-page",
+        element: <CartPage />,
+      },
+      {
+        path: "/process-checkout",
+        element: <Payment />,
+      },
     ],
   },
   {
@@ -47,6 +61,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+
   {
     path: "dashboard",
     element: <DashboardLayout />,

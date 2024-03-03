@@ -11,9 +11,9 @@ router.post('/add-menu',  postMenuItem);
 router.delete('/delete/:id', deleteMenuItem);
 
 // get single menu item
-router.get('/:id',  singleMenuItem);
+router.get('/single-item:id',  singleMenuItem);
 
 // update single menu item
 router.put('/update/:id',  updateMenuItem)
-
+ 
 module.exports = router;
