@@ -12,6 +12,7 @@ const port = process.env.PORT || 4000;
 const MenuRoute = require("./api/routes/MenuRoute");
 const CartRoute = require("./api/routes/CartRoute");
 const UserRoute = require("./api/routes/UserRoute");
+const paymentRoute = require("./api/routes/PaymentRoute");
 const verifyToken = require("./api/middlware/verifyToken");
 
 app.use(cors());
@@ -62,6 +63,9 @@ app.post("/create-payment-intent", async (req, res) => {
     clientSecret: paymentIntent.client_secret,
   });
 });
+
+app.use("/payment", paymentRoute);
+
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);
